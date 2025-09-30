@@ -689,6 +689,8 @@ const LaundryPOS = (() => {
     const additionalEl = form.querySelector("#order-additional");
     const addItemBtn = root.querySelector("#add-item-btn");
     const newOrderBtn = root.querySelector("#new-order-btn");
+    const serviceSelect = form.querySelector("#item-service");
+    const priceInput = form.querySelector("#item-price");
 
     let draftItems = [];
 
@@ -743,10 +745,20 @@ const LaundryPOS = (() => {
       }
     });
 
+    serviceSelect.addEventListener("change", () => {
+      const selectedService = state.services.find((svc) => svc.id === serviceSelect.value);
+      if (selectedService) {
+        priceInput.value = selectedService.price;
+        priceInput.placeholder = selectedService.price.toString();
+      } else {
+        priceInput.value = "";
+        priceInput.placeholder = "0";
+      }
+    });
+
     addItemBtn.addEventListener("click", () => {
-      const serviceId = form.querySelector("#item-service").value;
+      const serviceId = serviceSelect.value;
       const quantity = Number(form.querySelector("#item-qty").value) || 0;
-      const priceInput = form.querySelector("#item-price");
       const notes = form.querySelector("#item-notes").value.trim();
 
       if (!serviceId) {
@@ -770,7 +782,8 @@ const LaundryPOS = (() => {
         subtotal,
         notes,
       });
-      priceInput.value = "";
+      serviceSelect.value = "";
+      serviceSelect.dispatchEvent(new Event("change"));
       form.querySelector("#item-qty").value = "";
       form.querySelector("#item-notes").value = "";
       renderItems();
