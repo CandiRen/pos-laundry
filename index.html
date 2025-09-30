@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LaundryPOS - Aplikasi Kasir Laundry</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <h1>LaundryPOS</h1>
+      <p>Point of Sale Laundry terintegrasi</p>
+    </div>
+    <div class="header-meta">
+      <button id="open-settings" class="ghost-btn">Pengaturan Nota</button>
+      <button id="download-backup" class="ghost-btn">Backup Data</button>
+      <button id="import-backup" class="ghost-btn">Import Data</button>
+      <input type="file" id="import-file" accept="application/json" hidden>
+    </div>
+  </header>
+
+  <div class="layout">
+    <nav class="side-nav">
+      <button data-view="dashboard" class="nav-btn active">Dashboard</button>
+      <button data-view="orders" class="nav-btn">Kelola Pesanan</button>
+      <button data-view="customers" class="nav-btn">Kelola Pelanggan</button>
+      <button data-view="outlets" class="nav-btn">Kelola Outlet</button>
+      <button data-view="services" class="nav-btn">Layanan & Produk</button>
+      <button data-view="payments" class="nav-btn">Metode Pembayaran</button>
+      <button data-view="cashiers" class="nav-btn">Kelola Kasir</button>
+      <button data-view="expenses" class="nav-btn">Pengeluaran</button>
+      <button data-view="reports" class="nav-btn">Laporan Excel</button>
+      <button data-view="qr-scanner" class="nav-btn">QR & Status</button>
+    </nav>
+
+    <main id="view-container" class="content">
+      <!-- Konten di-render oleh app.js -->
+    </main>
+  </div>
+
+  <template id="order-row-template">
+    <tr>
+      <td class="nowrap">
+        <button class="link-btn" data-action="view-order">#<span data-field="code"></span></button>
+        <div class="order-date" data-field="createdAt"></div>
+      </td>
+      <td>
+        <div class="strong" data-field="customerName"></div>
+        <small data-field="customerPhone"></small>
+      </td>
+      <td>
+        <div data-field="serviceSummary"></div>
+        <small data-field="outletName"></small>
+      </td>
+      <td class="strong" data-field="total"></td>
+      <td>
+        <span class="status-pill" data-field="status"></span>
+      </td>
+      <td>
+        <div class="table-actions">
+          <button class="icon-btn" title="Update Status" data-action="advance-status">⏱️</button>
+          <button class="icon-btn" title="Cetak Nota" data-action="print-order">🖨️</button>
+          <button class="icon-btn" title="Kirim WhatsApp" data-action="share-whatsapp">💬</button>
+          <button class="icon-btn" title="QR Code" data-action="show-qr">📱</button>
+          <button class="icon-btn" title="Hapus" data-action="delete-order">🗑️</button>
+        </div>
+      </td>
+    </tr>
+  </template>
+
+  <div id="modal-root" class="modal hidden"></div>
+  <div id="toast" class="toast"></div>
+
+  <script src="qr.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
